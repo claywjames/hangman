@@ -775,7 +775,7 @@ smell
 smile
 smoke
 snail
-snails 
+snails
 snake
 snakes 
 sneeze
