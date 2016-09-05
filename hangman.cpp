@@ -7,6 +7,20 @@
 
 using namespace std;
 
+string getWord();
+char getGuess();
+
+int main() {
+    srand(time(NULL)); //create the seed for rand() using the current time
+    string word = getWord();
+    char guess = getGuess();
+    
+    
+
+    return 0;
+}
+
+
 string getWord() {
     int randChoice = rand() % 979; //random number between 0 and 978
     ifstream dictionaryFile("dictionary.txt");
@@ -22,9 +36,6 @@ string getWord() {
     return word;
 }
 
-int main() {
-    srand(time(NULL)); //create the seed for rand() using the current time
-    string word = getWord();
-    cout << word << endl;
-    return 0;
+char getGuess() {
+
 }
