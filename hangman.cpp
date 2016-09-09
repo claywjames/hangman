@@ -13,6 +13,7 @@ void playTurn(string word, string &wrongGuesses, string &guessedWord, int guesse
 string getWord();
 void drawHangman(int guessesRemaining);
 char getGuess();
+int matchingLetterPosition(char guess, string word);
 
 int main() {
     srand(time(NULL)); //create the seed for rand() using the current time
@@ -76,5 +77,11 @@ string getWord() {
 }
 
 char getGuess() {
-    return 'a';
+	char guess;
+
+	cout << "Guess a letter." << endl;
+	cin >> guess;
+
+	return guess;
 }
+
