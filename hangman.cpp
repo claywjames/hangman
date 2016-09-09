@@ -77,5 +77,11 @@ string getWord() {
 }
 
 char getGuess() {
-    return 'a';
+	char guess;
+
+	cout << "Guess a letter." << endl;
+	cin >> guess;
+
+	return guess;
 }
+
