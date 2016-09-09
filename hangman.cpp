@@ -13,6 +13,7 @@ void playTurn(string word, string &wrongGuesses, string &guessedWord, int guesse
 string getWord();
 void drawHangman(int guessesRemaining);
 char getGuess();
+int matchingLetterPositions(char guess, string word);
 
 int main() {
     srand(time(NULL)); //create the seed for rand() using the current time
