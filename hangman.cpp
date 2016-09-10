@@ -85,3 +85,14 @@ char getGuess() {
 	return guess;
 }
 
+int matchingLetterPositions(char guess, string word) {
+	int i, positionArray[100], j = 0;
+	for (i = 0; i < word.length(); i++) {
+		if (word[i] == guess) {
+			positionArray[j] = i;
+			j++;
+		}
+	}
+	return positionArray;
+}
+
