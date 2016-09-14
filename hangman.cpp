@@ -5,15 +5,16 @@
 #include <cstdlib>
 #include <ctime>
 #include <ctype.h>
+#include <vector>
 
 using namespace std;
 
 void playGame();
-void playTurn(string word, string &wrongGuesses, string &guessedWord, int guessesRemaining);
+void playTurn(string word, string &wrongGuesses, string &guessedWord, int &guessesRemaining);
 string getWord();
 void drawHangman(int guessesRemaining);
 char getGuess();
-int matchingLetterPositions(char guess, string word);
+vector<int> matchingLetterPositions(char guess, string word);
 
 int main() {
     srand(time(NULL)); //create the seed for rand() using the current time
@@ -26,15 +27,22 @@ int main() {
 
 
 void playGame() {
-    string word = getWord(), wrongGuesses(6, '\0');
+    string word = getWord(), wrongGuesses;
     string guessedWord(word.length(), '_');
     int guessesRemaining = 6;
 
-    while (guessesRemaining > 0 && guessedWord != word) {
-        playTurn(word, &wrongGuesses, &guessedWord, guessesRemaining);
-        --guessesRemaining;
+    while (guessesRemaining > 0 && guessedWord != word) 
+        playTurn(word, wrongGuesses, guessedWord, guessesRemaining);
+    
+    system("CLS");
+    drawHangman(guessesRemaining);
+    for (int i = 0; i < guessedWord.length(); i++) cout << guessedWord[i] << " ";
+    cout << endl << "Guesses left: " << guessesRemaining << endl;
+    if (guessedWord == word) {
+        cout << "You Win!" << endl;
+    } else {
+        cout << "The word was: " << word << endl;
     }
-
     char playAgain;
     cout << "Would you like to keep playing?(Y/N)" << endl;
     cin >> playAgain;
@@ -42,10 +50,10 @@ void playGame() {
 
 }
 
-void playTurn(string word, string &wrongGuesses, string &guessedWord, int guessesRemaining) {
+void playTurn(string word, string &wrongGuesses, string &guessedWord, int &guessesRemaining) {
     system("CLS");
 
-    drawHangman(guessesRemaining)
+    drawHangman(guessesRemaining);
     int i;
     for (i = 0; i < guessedWord.length(); i++) cout << guessedWord[i] << " ";
     cout << endl << "Guesses left: " << guessesRemaining << endl;
@@ -54,10 +62,13 @@ void playTurn(string word, string &wrongGuesses, string &guessedWord, int guesse
         if (isalpha(wrongGuesses[i])) cout << wrongGuesses[i] << endl;
 
     char guess = getGuess();
-    int correctLetterPositions = matchingLetterPositions(guess, word);
-    if (correctLetterPositions.empty()) {
-        cout << "incorrect";
-        wrongGuesses
+    vector<int> correctLetterPositions = matchingLetterPositions(guess, word);
+    if (correctLetterPositions.size() == 0) {
+        wrongGuesses.insert(wrongGuesses.begin(), guess);
+        --guessesRemaining;
+    } else {
+        for (i = 0; i < correctLetterPositions.size(); i++)
+            guessedWord[correctLetterPositions[i]] = guess;
     }
 }
 
@@ -76,6 +87,32 @@ string getWord() {
     return word;
 }
 
+void drawHangman(int guessesRemaining) {
+    switch (guessesRemaining) {
+        case 6:
+            cout << "    _____\n   |    |\n        |\n        |\n        |\n        |\n        |\n        |\n        |\n";
+            break;
+        case 5:
+            cout << "    _____\n   |    |\n   O    |\n        |\n        |\n        |\n        |\n        |\n        |\n";
+            break;
+        case 4:
+            cout << "    _____\n   |    |\n   O    |\n   |    |\n        |\n        |\n        |\n        |\n        |\n";
+            break;
+        case 3:
+            cout << "    _____\n   |    |\n   O    |\n  /|    |\n        |\n        |\n        |\n        |\n        |\n";
+            break;
+        case 2:
+            cout << "    _____\n   |    |\n   O    |\n  /|\\   |\n        |\n        |\n        |\n        |\n        |\n";
+            break;
+        case 1:
+            cout << "    _____\n   |    |\n   O    |\n  /|\\   |\n  /     |\n        |\n        |\n        |\n        |\n";
+            break;
+        case 0:
+            cout << "    _____\n   |    |\n   O    |\n  /|\\   |\n  / \\   |\n        |\n        |\n        |\n        |\n";
+            break;
+    }
+}
+
 char getGuess() {
 	char guess;
 
@@ -85,14 +122,11 @@ char getGuess() {
 	return guess;
 }
 
-int matchingLetterPositions(char guess, string word) {
-	int i, positionArray[100], j = 0;
-	for (i = 0; i < word.length(); i++) {
-		if (word[i] == guess) {
-			positionArray[j] = i;
-			j++;
-		}
-	}
-	return positionArray;
+vector<int> matchingLetterPositions(char guess, string word) {
+    vector<int> positionVector;
+	for (int i = 0; i < word.length(); i++)
+		if (word[i] == guess) positionVector.push_back(i);
+
+	return positionVector;
 }
 
