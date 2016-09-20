@@ -9,9 +9,10 @@
 
 using namespace std;
 
+int getLength();
 void playGame();
 void playTurn(string word, string &wrongGuesses, string &guessedWord, int &guessesRemaining);
-string getWord();
+string getWord(int length);
 void drawHangman(int guessesRemaining);
 char getGuess();
 vector<int> matchingLetterPositions(char guess, string word);
@@ -26,8 +27,16 @@ int main() {
 }
 
 
+int getLength() {
+    int length;
+    system("CLS");
+    cout << "Enter length of word you want to guess(3-8[8 for 8+]): ";
+    cin >> length;
+    return length;
+}
+
 void playGame() {
-    string word = getWord(), wrongGuesses;
+    string word = getWord(getLength()), wrongGuesses;
     string guessedWord(word.length(), '_');
     int guessesRemaining = 6;
 
@@ -72,8 +81,28 @@ void playTurn(string word, string &wrongGuesses, string &guessedWord, int &guess
     }
 }
 
-string getWord() {
-    int randChoice = rand() % 979; //random number between 0 and 978
+string getWord(int length) {
+    int randChoice;
+    switch (length) {
+        case 3:
+            randChoice = rand() % 83;
+            break;
+        case 4:
+            randChoice = rand() % 270 + 83;
+            break;
+        case 5:
+            randChoice = rand() % 223 + 354;
+            break;
+        case 6:
+            randChoice = rand() % 171 + 578;
+            break;
+        case 7:
+            randChoice = rand() % 95 + 750;
+            break;
+        case 8:
+            randChoice = rand() % 133 + 846;
+            break;
+    }
     ifstream dictionaryFile("dictionary.txt");
     stringstream dictionaryBuffer;
 
