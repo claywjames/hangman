@@ -28,10 +28,20 @@ int main() {
 
 
 int getLength() {
-    int length;
+    string stringLength;
+    int  length;
     system("CLS");
     cout << "Enter length of word you want to guess(3-8[8 for 8+]): ";
-    cin >> length;
+    cin >> stringLength;
+    try {
+        length = stoi(stringLength);
+    } catch (const invalid_argument& error) {
+        return getLength();
+    }
+    if (!(length < 9 && length > 2)) {
+        system("CLS");
+        return getLength();
+    }
     return length;
 }
 
