@@ -65,6 +65,7 @@ void playGame() {
     char playAgain;
     cout << "Would you like to keep playing?(Y/N)" << endl;
     cin >> playAgain;
+    playAgain = toupper(playAgain);
     if (playAgain == 'Y') playGame();
 
 }
